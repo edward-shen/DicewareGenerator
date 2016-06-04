@@ -18,12 +18,14 @@
 package core;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -114,6 +116,9 @@ public class Main {
 		minSize.setColumns(10);
 		minSize.addPropertyChangeListener("value", null);
 		
+		passwordData.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+		dictionaryHash.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+		
 		updatePhraseSize();
 		
 		addComponents();
@@ -137,7 +142,6 @@ public class Main {
 				while (true) {
 					livefeed.paintComponent(cl.getNextImage());
 				}
-				
 				
 			}
 		});
@@ -329,7 +333,18 @@ public class Main {
 		 * 
 		 * User wants at least 2 words, with 3 being special "words" and 2 being number "words". The below function returns 5, as 2 < 2 + 3.
 		 */
-		String val = String.valueOf((minSizeVal > (minNumVal + minSpVal)) ? minSizeVal : minNumVal + minSpVal);
+		String val;
+		if (useNumbers.isSelected() && useSpecialChars.isSelected()) {
+			val = String.valueOf((minSizeVal > (minNumVal + minSpVal)) ? minSizeVal : minNumVal + minSpVal);
+			
+		} else if (useNumbers.isSelected() && !useSpecialChars.isSelected()) {
+			val = String.valueOf((minSizeVal > (minNumVal + minSpVal)) ? minSizeVal : minNumVal);
+			
+		} else if (!useNumbers.isSelected() && useSpecialChars.isSelected()) {
+			val = String.valueOf((minSizeVal > (minNumVal + minSpVal)) ? minSizeVal : minSpVal);
+		} else {
+			val = String.valueOf(minSizeVal);
+		}
 		
 		curPhraseSize.setText(val);
 		wordsLeft.setText(val);
@@ -376,11 +391,24 @@ public class Main {
 		
 		Map<Integer, Integer> data = cl.getData(); // Get our data from the image
 		
-		// rawValue is used for debugging only, and is used to verify that our data is correct.
-		int rawValue = data.get(0) * 10000 + data.get(1) * 1000 + data.get(2) * 100 + data.get(3) * 10 + data.get(4);
-		// Converts our 1-6 digit range into 0-5 to be used for base conversion. Yes, it works.
-		int value = (data.get(0) - 1) * 10000 + (data.get(1) - 1) * 1000 + (data.get(2) - 1) * 100 + (data.get(3) - 1) * 10 + data.get(4) - 1;
-		value = Integer.valueOf(Integer.toString(Integer.parseInt(Integer.toString(value), 6), 10)); // Actual conversion from base 6 to base 10
+		int rawValue = 0;
+		int value = 0;
+		
+		try {
+			// rawValue is used for debugging only, and is used to verify that our data is correct.
+			rawValue = data.get(0) * 10000 + data.get(1) * 1000 + data.get(2) * 100 + data.get(3) * 10 + data.get(4);
+			// Converts our 1-6 digit range into 0-5 to be used for base conversion. Yes, it works.
+			value = (data.get(0) - 1) * 10000 + (data.get(1) - 1) * 1000 + (data.get(2) - 1) * 100 + (data.get(3) - 1) * 10 + data.get(4) - 1;
+		} catch (NoSuchElementException e) {
+			System.out.println(data.values());
+		}
+		
+		try {
+			value = Integer.valueOf(Integer.toString(Integer.parseInt(Integer.toString(value), 6), 10)); // Actual conversion from base 6 to base 10
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.err.println("Dice Code was " + rawValue + "!");
+		}
 		
 		// Generates the special characters first, and moves on to numbers and finally words once the quota has been reached for the respective word type.
 		if (useSpecialChars.isSelected() && curNumSp < Integer.valueOf(minSpChars.getText())) {

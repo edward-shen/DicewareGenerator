@@ -78,6 +78,7 @@ public class PasswordGenerator {
 			try (Stream<String> lines = Files.lines(Paths.get(wordDict))) {
 				// Write to file and note the word as used
 				writer.println(lines.skip(next).findFirst().get());
+				writer.flush();
 				wordList.set(next, true);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -138,7 +139,7 @@ public class PasswordGenerator {
 		
 		if (file.equals(outputFile))
 			return cardinality;
-		if (file.equals(spCharDict) || file.equals(numDict))
+		if (file.equals(numDict))
 			return SPECIAL_DICT_SIZE;
 			
 		try (InputStream is = new BufferedInputStream(new FileInputStream(file))) {
@@ -231,7 +232,7 @@ public class PasswordGenerator {
 			}
 			
 		} else if (dict.ordinal() == 1) {
-			randOffset = rnd.nextInt(SPECIAL_DICT_SIZE - 7776);
+			randOffset = rnd.nextInt(getDictSize(spCharDict) - 7776);
 			try (Stream<String> lines = Files.lines(Paths.get(spCharDict))) {
 				return lines.skip(value + randOffset).findFirst().get();
 			} catch (IOException e) {

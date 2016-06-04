@@ -153,7 +153,7 @@ public class Classifier {
 				 * renders properly. This is an amazing trick, as it not only eliminates false positives in non-dice ROIs, but it reduces how many pixels the classifier has to analyze to only at most
 				 * 38 x 38 pixels (because of the size restraints provided while detecting dice ROIs). This means we can set the precision to an insane level, without performance loss.
 				 */
-				pipCascade.detectMultiScale(image.submat(diceRect), pipDetections, 1.05, 3, 0, new Size(3, 3), new Size(10, 10));
+				pipCascade.detectMultiScale(image.submat(diceRect), pipDetections, 1.01, 4, 0, new Size(2, 2), new Size(10, 10));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
