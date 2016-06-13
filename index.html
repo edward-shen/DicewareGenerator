@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Diceware Passwords by edward-shen</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Diceware Passwords</h1>
+        <p>Generation of secure passwords via dice and Machine Learning.</p>
+
+        <p class="view"><a href="https://github.com/edward-shen/diceware-generator">View the Project on GitHub <small>edward-shen/diceware-generator</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/edward-shen/diceware-generator/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/edward-shen/diceware-generator/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/edward-shen/diceware-generator">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a id="diceware-generator" class="anchor" href="#diceware-generator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Diceware Generator</h3>
+
+<p>This project's task was to implement a secure passphrase generator using the true randomness of dice, in an efficient way. <a href="https://github.com/Itseez/opencv">OpenCV</a> 3.1 allows us to identify pips on a dice, and <a href="https://docs.oracle.com/javase/7/docs/api/java/security/SecureRandom.html">Java's SecureRandom</a> allows us to generate nonces used for dictionaries and and word selection.</p>
+
+<h3>
+<a id="ui" class="anchor" href="#ui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UI</h3>
+
+<p>Out of the bag, there are option for the following: Number of passwords used in the passphrase, number of passwords consisting of random special characters, and number of passwords consisting of random numerical characters. There's also an option to capture a raw image or an image with the detections drawn on top, and to generate the random dictionaries.</p>
+
+<h3>
+<a id="instructions" class="anchor" href="#instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Instructions</h3>
+
+<p>Do not export this into a self-standing executable <code>.jar</code> file. There's probably way to do this, but because of the current structure, it's not possible to. Once running, you <em>must</em> first generate a new dictionary. A hash will be provided once it's finished generating. Then, have five dice thrown into the view of the camera, and ensure that all dice have been detected. Then click generate password, and repeat. </p>
+
+<h3>
+<a id="known-bugs" class="anchor" href="#known-bugs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Known Bugs</h3>
+
+<ul>
+<li>Occasionally, OpenCV's libraries throw an unknown error.</li>
+<li>If less than 5 dice are detected, then it crashes the program.</li>
+<li>Even though there's double buffering in the livestream, it still flickers.</li>
+<li>Performance Issues.</li>
+<li>UI doesn't update as soon as it should.</li>
+</ul>
+
+<h3>
+<a id="further-improvements" class="anchor" href="#further-improvements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Further Improvements</h3>
+
+<ul>
+<li>Any of the above bugs</li>
+<li>More options (i.e. alphanumeric passwords, number of dice, etc., etc.) </li>
+</ul>
+
+<h3>
+<a id="more-information" class="anchor" href="#more-information" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>More Information</h3>
+
+<p>Check out our <a href="https://github.com/edward-shen/diceware-generator">Github</a> for more info.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/edward-shen">edward-shen</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
